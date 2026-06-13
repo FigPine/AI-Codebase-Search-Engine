@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Codebase Search Engine</title>
+    <link rel="stylesheet" href="{% static 'codebase/css/style.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Codebase AI</h2>
+    
+    <div class="upload-form">
+        <h3>Upload Repository</h3>
+        <form id="uploadForm">
+            <div class="file-input-wrapper">
+                <input type="file" id="repoZip" accept=".zip" required>
+            </div>
+            <button type="submit" id="uploadBtn">Index Codebase</button>
+        </form>
+        <p id="uploadStatus" style="font-size: 0.85rem; margin-top: 1rem; display: none;"></p>
+    </div>
+    
+    <h3>Indexed Repositories</h3>
+    <div class="repo-list" id="repoList">
+        {% for repo in repositories %}
+            <div class="repo-item" data-repo="{{ repo.name }}">
+                <strong>{{ repo.name }}</strong>
+                <div style="font-size: 0.8rem; color: gray;">{{ repo.uploaded_at|date:"M d, Y" }}</div>
+            </div>
+        {% empty %}
+            <p style="color: gray; font-size: 0.9rem;">No repositories indexed yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2 id="activeRepoTitle">Select a Repository</h2>
+            <p id="activeRepoSubtitle">Upload or select a repository from the sidebar to start asking questions.</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                Hi! Upload a repository as a .zip file and select it from the sidebar. Then, you can ask me anything about its codebase!
+            </div>
+        </div>
+        
+        <div class="chat-input-area">
+            <input type="text" id="queryInput" placeholder="Ask a question about the codebase..." disabled>
+            <button id="sendBtn" disabled>Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'codebase/js/main.js' %}"></script>
+</body>
+</html>
